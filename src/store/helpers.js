@@ -1,6 +1,7 @@
 let finishCell = null;
+
 function newMaze(x, y) {
-  // Генеруємо пустий лабіринт
+  // Generate an empty maze
   let maze = [];
   for (let i = 0; i < y; i++) {
     maze[i] = [];
@@ -9,67 +10,49 @@ function newMaze(x, y) {
     }
   }
 
-  // Створюємо стек для відстеження шляху
-  let stack = [[0, 0]]; // Початкова точка без входу
+  // Create a stack to track the path
+  let stack = [[0, 0]]; // Start point without entrance
 
-  // Генеруємо лабіринт
+  // Generate the maze
   while (stack.length > 0) {
     let current = stack[stack.length - 1];
     let [currentX, currentY] = current;
 
-    // Отримуємо сусідів
+    // Get neighbors
     let neighbors = [];
-    if (currentX > 0) neighbors.push([currentX - 1, currentY, 3, 1]); // Лівий сусід
-    if (currentX < x - 1) neighbors.push([currentX + 1, currentY, 1, 3]); // Правий сусід
-    if (currentY > 0) neighbors.push([currentX, currentY - 1, 0, 2]); // Верхній сусід
-    if (currentY < y - 1) neighbors.push([currentX, currentY + 1, 2, 0]); // Нижній сусід
+    if (currentX > 0) neighbors.push([currentX - 1, currentY, 3, 1]); // Left neighbor
+    if (currentX < x - 1) neighbors.push([currentX + 1, currentY, 1, 3]); // Right neighbor
+    if (currentY > 0) neighbors.push([currentX, currentY - 1, 0, 2]); // Top neighbor
+    if (currentY < y - 1) neighbors.push([currentX, currentY + 1, 2, 0]); // Bottom neighbor
 
     let unvisitedNeighbors = neighbors.filter(
       ([nx, ny]) => maze[ny][nx][4] === undefined
     );
 
     if (unvisitedNeighbors.length > 0) {
-      // Вибираємо випадкового сусіда
+      // Choose a random neighbor
       let [nextX, nextY, wall, oppositeWall] =
         unvisitedNeighbors[
           Math.floor(Math.random() * unvisitedNeighbors.length)
         ];
 
-      // Видаляємо стіну між поточною клітинкою та сусідом
+      // Remove the wall between the current cell and the neighbor
       maze[currentY][currentX][wall] = 0;
       maze[nextY][nextX][oppositeWall] = 0;
 
-      // Позначаємо сусіда як відвіданого і додаємо його до стеку
+      // Mark the neighbor as visited and add it to the stack
       maze[nextY][nextX][4] = true;
       stack.push([nextX, nextY]);
     } else {
-      // Якщо всі сусіди відвідані, видаляємо поточну клітинку зі стеку
+      // If all neighbors are visited, pop the current cell from the stack
       stack.pop();
     }
   }
 
-  // Розташовуємо фініш на бічній стороні
-  let side = Math.floor(Math.random() * 4); // 0 - верх, 1 - право, 2 - низ, 3 - ліво
-  let finishX, finishY;
-  switch (side) {
-    case 0: // Верх
-      finishX = Math.floor(Math.random() * x);
-      finishY = 0;
-      break;
-    case 1: // Право
-      finishX = x - 1;
-      finishY = Math.floor(Math.random() * y);
-      break;
-    case 2: // Низ
-      finishX = Math.floor(Math.random() * x);
-      finishY = y - 1;
-      break;
-    case 3: // Ліво
-      finishX = 0;
-      finishY = Math.floor(Math.random() * y);
-      break;
-  }
-  maze[finishY][finishX][side] = 0; // Видаляємо стіну для фінішу
+  // Place the finish cell in the bottom-right corner
+  let finishX = x - 1;
+  let finishY = y - 1;
+  maze[finishY][finishX][1] = 0; // Remove the wall for the finish cell
 
   finishCell = [finishX, finishY];
   return { maze, finishCell };

@@ -5,26 +5,38 @@
       <div class="buttons">
         <button
           @click="onPlay('Easy')"
-          class="buttons__easy"
-          :disabled="stopWatch"
+          :class="[
+            'buttons__easy',
+            {
+              selected: mode === 'Easy',
+            },
+          ]"
         >
           Easy
         </button>
         <button
           @click="onPlay('Standard')"
-          class="buttons__standard"
-          :disabled="stopWatch"
+          :class="[
+            'buttons__standard',
+            {
+              selected: mode === 'Standard',
+            },
+          ]"
         >
           Standard
         </button>
         <button
           @click="onPlay('Hard')"
-          class="buttons__hard"
-          :disabled="stopWatch"
+          :class="[
+            'buttons__hard',
+            {
+              selected: mode === 'Hard',
+            },
+          ]"
         >
           Hard
         </button>
-        <button @click="generateMaze" class="buttons__play">Play game</button>
+        <!-- <button @click="generateMaze" class="buttons__play">Play game</button> -->
       </div>
       <game-panel />
     </div>
@@ -42,7 +54,7 @@ export default {
     GamePanel,
   },
   computed: {
-    ...mapState(useMazeStore, ["isFinished", "timeSpent", "stopWatch"]),
+    ...mapState(useMazeStore, ["isFinished", "timeSpent", "stopWatch", "mode"]),
   },
   methods: {
     ...mapActions(useMazeStore, [
@@ -66,6 +78,7 @@ export default {
         default:
           break;
       }
+      this.generateMaze();
     },
   },
   watch: {
@@ -88,8 +101,11 @@ h1 {
   margin-top: 10px;
   display: flex;
   justify-content: space-between;
-  width: 300px;
+  max-width: 330px;
   button {
+    width: 88px;
+    font-weight: bold;
+    border: 3px solid transparent;
     border-radius: 20px;
     padding: 10px;
   }
@@ -104,6 +120,9 @@ h1 {
   &__hard {
     background-color: red;
   }
+}
+.selected {
+  border: 3px solid rgb(255, 255, 255) !important;
 }
 @media only screen and (max-width: 600px) {
   h1 {

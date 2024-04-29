@@ -18,6 +18,7 @@
         :class="[
           'cell',
           {
+            finished: i === finishCell[1] && j === finishCell[0] && isFinished,
             finish: i === finishCell[1] && j === finishCell[0],
             player: i === currentCell[1] && j === currentCell[0],
             top: cell[0] === 1,
@@ -145,35 +146,40 @@ export default {
   align-items: center;
 }
 .top {
-  border-top: 5px solid white;
+  border-top: 3px solid white;
 }
 .right {
-  border-right: 5px solid white;
+  border-right: 3px solid white;
 }
 .bottom {
-  border-bottom: 5px solid white;
+  border-bottom: 3px solid white;
 }
 .left {
-  border-left: 5px solid white;
+  border-left: 3px solid white;
 }
 .player {
-  background: red;
+  background: url("@/assets/img/pikachu.png") 0 0/100% 100% no-repeat, #42b983;
 }
 .finish {
-  background: url("../assets/img/finish.png") 0 0/100% 100% no-repeat, #42b983;
+  background: url("@/assets/img/pokeball.png") 0 0/100% 100% no-repeat, #42b983;
+}
+.finished {
+  background: url("@/assets/img/finished.png") 0 0/100% 100% no-repeat, #42b983;
 }
 .keyboard {
   position: fixed;
-  left: calc(50vw - (/* width */ 270px / 2));
+  left: calc(50vw - (/* width */ 240px / 2));
   margin-top: 20px;
-  width: 270px;
+  width: 240px;
   display: none;
+  gap: 5px;
   grid-template-columns: 1fr 1fr 1fr;
   button {
+    border-radius: 50%;
     background-color: #efdd17;
     padding: 20px;
-    width: 90px;
-    height: 90px;
+    width: 80px;
+    height: 80px;
     svg {
       width: 100%;
       height: 100%;
