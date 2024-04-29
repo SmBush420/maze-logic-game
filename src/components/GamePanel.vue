@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isFinished" class="maze">
+  <div class="maze">
     <div
       v-for="(row, i) in cells"
       :key="i"
@@ -18,6 +18,7 @@
         :class="[
           'cell',
           {
+            finish: i === finishCell[1] && j === finishCell[0],
             player: i === currentCell[1] && j === currentCell[0],
             top: cell[0] === 1,
             right: cell[1] === 1,
@@ -28,7 +29,7 @@
       ></div>
     </div>
   </div>
-  <div v-else class="window">
+  <div v-if="isFinished" class="window">
     <div>Mode: {{ mode }}</div>
     <div>Maze: {{ maxSize[0] }}x{{ maxSize[1] }}</div>
     <div>Time spent: {{ timeSpent.toFixed(2) }}s</div>
@@ -36,6 +37,22 @@
       <img src="@/assets/img/arrow-rotate.svg" />
     </button>
   </div>
+  <template v-if="timeSpent">
+    <div class="keyboard">
+      <button @click="step('ArrowUp')">
+        <font-awesome-icon :icon="['fas', 'arrow-up']" />
+      </button>
+      <button @click="step('ArrowLeft')">
+        <font-awesome-icon :icon="['fas', 'arrow-left']" />
+      </button>
+      <button @click="step('ArrowDown')">
+        <font-awesome-icon :icon="['fas', 'arrow-down']" />
+      </button>
+      <button @click="step('ArrowRight')">
+        <font-awesome-icon :icon="['fas', 'arrow-right']" />
+      </button>
+    </div>
+  </template>
 </template>
 
 <script>
@@ -51,6 +68,7 @@ export default {
       "timeSpent",
       "mode",
       "maxSize",
+      "finishCell",
     ]),
   },
   methods: {
@@ -67,13 +85,16 @@ export default {
 
 <style lang="scss" scoped>
 .window {
+  position: fixed;
+  top: 150px;
+  left: calc(50vw - (/* width */ 300px / 2));
   font-size: 18px;
   padding: 20px;
   border-radius: 20px;
   margin: 0 auto;
   margin-top: 20px;
-  max-width: 300px;
-  background: #42b983;
+  width: 300px;
+  background: rgba(72, 51, 51, 0.845);
   button {
     background-color: #efdd17;
     width: 100px;
@@ -137,5 +158,139 @@ export default {
 }
 .player {
   background: red;
+}
+.finish {
+  background: url("../assets/img/finish.png") 0 0/100% 100% no-repeat, #42b983;
+}
+.keyboard {
+  position: fixed;
+  left: calc(50vw - (/* width */ 270px / 2));
+  margin-top: 20px;
+  width: 270px;
+  display: none;
+  grid-template-columns: 1fr 1fr 1fr;
+  button {
+    background-color: #efdd17;
+    padding: 20px;
+    width: 90px;
+    height: 90px;
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+    &:active {
+      background-color: #42b983;
+    }
+  }
+  :first-child {
+    grid-column-start: 2;
+  }
+  :nth-child(2),
+  :nth-child(3),
+  :nth-child(4) {
+    grid-row-start: 2;
+  }
+}
+@media only screen and (max-width: 760px) {
+  .hard {
+    .cell {
+      width: 40px;
+      height: 40px;
+    }
+    .top {
+      border-top: 3px solid white;
+    }
+    .right {
+      border-right: 3px solid white;
+    }
+    .bottom {
+      border-bottom: 3px solid white;
+    }
+    .left {
+      border-left: 3px solid white;
+    }
+  }
+}
+@media only screen and (max-width: 600px) {
+  h1 {
+    font-size: 24px;
+  }
+  .keyboard {
+    display: grid;
+  }
+  .hard {
+    .cell {
+      width: 35px;
+      height: 35px;
+    }
+  }
+}
+@media only screen and (max-width: 530px) {
+  .hard {
+    .cell {
+      width: 30px;
+      height: 30px;
+    }
+  }
+}
+@media only screen and (max-width: 500px) {
+  .standard {
+    .cell {
+      width: 40px;
+      height: 40px;
+    }
+    .top {
+      border-top: 3px solid white;
+    }
+    .right {
+      border-right: 3px solid white;
+    }
+    .bottom {
+      border-bottom: 3px solid white;
+    }
+    .left {
+      border-left: 3px solid white;
+    }
+  }
+}
+@media only screen and (max-width: 450px) {
+  .hard {
+    .cell {
+      width: 25px;
+      height: 25px;
+    }
+    .top {
+      border-top: 2px solid white;
+    }
+    .right {
+      border-right: 2px solid white;
+    }
+    .bottom {
+      border-bottom: 2px solid white;
+    }
+    .left {
+      border-left: 2px solid white;
+    }
+  }
+}
+@media only screen and (max-width: 400px) {
+  .standard {
+    .cell {
+      width: 35px;
+      height: 35px;
+    }
+  }
+  .top {
+    border-top: 3px solid white;
+  }
+  .right {
+    border-right: 3px solid white;
+  }
+  .bottom {
+    border-bottom: 3px solid white;
+  }
+  .left {
+    border-left: 3px solid white;
+  }
 }
 </style>

@@ -77,12 +77,15 @@ export default {
 </script>
 
 <style lang="scss">
+.container {
+  position: relative;
+}
 h1 {
   text-align: center;
 }
 .buttons {
   margin: 0 auto;
-  margin-top: 20px;
+  margin-top: 10px;
   display: flex;
   justify-content: space-between;
   width: 300px;
@@ -100,6 +103,16 @@ h1 {
 
   &__hard {
     background-color: red;
+  }
+}
+@media only screen and (max-width: 600px) {
+  h1 {
+    font-size: 48px;
+  }
+}
+@media only screen and (max-width: 400px) {
+  h1 {
+    font-size: 32px;
   }
 }
 </style>
