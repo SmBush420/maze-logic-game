@@ -169,7 +169,7 @@ export default {
 .keyboard {
   position: fixed;
   left: calc(50vw - (/* width */ 240px / 2));
-  margin-top: 20px;
+  margin-top: 25px;
   width: 240px;
   display: none;
   gap: 5px;

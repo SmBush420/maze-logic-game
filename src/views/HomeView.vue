@@ -39,6 +39,7 @@
         <!-- <button @click="generateMaze" class="buttons__play">Play game</button> -->
       </div>
       <game-panel />
+      <footer class="copyright">© Oleg Satsiuk</footer>
     </div>
   </div>
 </template>
@@ -103,33 +104,39 @@ h1 {
   justify-content: space-between;
   max-width: 330px;
   button {
-    width: 88px;
+    color: white;
+    width: 100px;
+    font-size: 16px;
     font-weight: bold;
     border: 3px solid transparent;
-    border-radius: 20px;
+    border-radius: 25px;
     padding: 10px;
   }
   &__easy {
-    background-color: green;
+    background-color: #60c738;
   }
 
   &__standard {
-    background-color: orange;
+    background-color: #f4821f;
   }
 
   &__hard {
-    background-color: red;
+    background-color: #d60909;
   }
 }
 .selected {
   border: 3px solid rgb(255, 255, 255) !important;
+}
+.copyright {
+  line-height: 140%;
+  text-align: center;
 }
 @media only screen and (max-width: 600px) {
   h1 {
     font-size: 48px;
   }
 }
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 440px) {
   h1 {
     font-size: 32px;
   }
